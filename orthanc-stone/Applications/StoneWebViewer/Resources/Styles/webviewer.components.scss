@@ -1,0 +1,66 @@
+/* wvp-ui stuffs */
+wv-webviewer {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+}
+
+@import "variable";
+@import "button";
+@import "exitButton";
+@import "studyIsland";
+@import "helpers";
+@import "notice";
+@import "layout";
+@import "serieslist";
+@import "toolbar";
+@import "video";
+@import "studyInformationBreadcrumb";
+@import "selectionActionlist";
+
+/* wvb-ui stuffs */
+@import "wv-overlay.scss";
+
+// PDF.js in Stone uses the "Display" layer, not the "Viewer" layer as in Osimis Web Viewer
+/*@import "wv-pdf-viewer.scss";*/
+
+// The following line was part of "wv-pdf-viewer.scss" and is
+// necessary to avoid headers/footers while printing
+@page { margin: 0; }
+
+@import "wv-splitpane.scss";
+@import "wv-timeline.scss";
+@import "wv-timeline-controls.scss";
+@import "wv-loadingbar.scss";
+@import "wv-disclaimer";
+@import "tb-group";
+
+wv-viewport { // make sure the element is sized when using with drag & drop
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+
+  > div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  // We don't set 100% width/height to the canvas element, as it would stretch
+  // the pixels. Instead, we center it for more fluid transition when pane's 
+  // width changes (at least the content is kept centered even if the js hasn't
+  // yet reacted to layout reflow).
+  > div > .wv-cornerstone-enabled-image {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+}
+
+.wv-draggable-clone {
+  width: 150px;
+  height: 150px;
+  background-color: rgba(255,255,255,0.25);
+
+  // No need to set z-index (already done by jquery ui lib).
+}

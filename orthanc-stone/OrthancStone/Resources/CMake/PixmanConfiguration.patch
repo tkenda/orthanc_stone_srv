@@ -1,0 +1,13 @@
+diff -urEb pixman-0.34.0.orig/pixman/pixman-x86.c pixman-0.34.0/pixman/pixman-x86.c
+--- pixman-0.34.0.orig/pixman/pixman-x86.c	2016-07-05 12:46:52.889101224 +0200
++++ pixman-0.34.0/pixman/pixman-x86.c	2016-07-05 12:47:07.253101808 +0200
+@@ -80,7 +80,7 @@
+ static pixman_bool_t
+ have_cpuid (void)
+ {
+-#if _PIXMAN_X86_64 || defined (_MSC_VER)
++#if _PIXMAN_X86_64 || defined (_MSC_VER) || defined(__native_client__)
+ 
+     return TRUE;
+ 
+Only in pixman-0.34.0/pixman: pixman-x86.c~

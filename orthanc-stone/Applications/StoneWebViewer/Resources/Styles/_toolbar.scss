@@ -1,0 +1,178 @@
+.wvToolbar {
+    position: absolute;
+}
+
+.wvToolbar--top {
+    top: 0;
+    height: $toolbarHeight;
+
+    // Position the toolbar to the right (even if it's positioned
+    // horizontally).
+    right: 0;
+    text-align: right;
+
+    // Allow user to scroll through the toolbar if screen is too small. Note we
+    // can't use z-index properly to show buttons on top of the viewer, as any
+    // popover will appear behind them (even with higher z-index) due to an
+    // overflow property hidden somewhere.
+    // overflow-y: auto;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.wvToolbar--right {
+    right: 0;
+    width: 42px; // != $toolbarHeight since we're in the reverse order.
+
+    // Allow user to scroll through the toolbar if screen is too small.
+    // overflow-x: auto;
+    height: 100%;
+    z-index: 2;
+    &.wvToolbar--big{
+        width: 68px;
+    }
+}
+
+/* Splitpane Grid Configuration */
+
+.wvToolbar__splitpaneConfigPopover {
+    // Prevent white space between buttons.
+    font-size: 0;
+}
+
+.wvToolbar__splitpaneConfigNotice {
+    font-size: 1.25rem;
+    font-style: italic;
+    text-align: center;
+
+    color: #333;
+}
+
+input[type="radio"].wvToolbar__splitpaneConfigButtonInput {
+    // Hide the radio input, but make it fit the label, so we can rely on its
+    // html caracteristics without having to suffer from its design.
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 0;
+    top: 0;
+    bottom: 2px;
+    right: 0;
+    opacity: 0;
+}
+
+/* Windowing Preset */
+
+.wvToolbar__windowingPresetConfigPopover {
+
+}
+.wvToolbar__windowingPresetConfigNotice {
+    font-size: 1.25rem;
+    font-style: italic;
+    text-align: center;
+
+    color: #333;
+}
+
+.wvToolbar__windowingPresetList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    font-size: 1.5rem;
+}
+.wvToolbar__windowingPresetListItem {
+    // Remove <a> default styles. Take care - this class may either be used
+    // with <a> or <button>.
+    &:hover {
+        text-decoration: none;
+        color: white;
+    }
+
+    // Remove <button> default styles.
+    outline: none;
+    background-color: transparent;
+    border: none;
+
+    // Set relative to position button absolutely
+    position: relative;
+
+    // Style button
+    display: inline-block;
+    cursor: pointer;
+    font-variant: small-caps;
+    text-transform: lowercase;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 2.2rem;
+    color: hsl(0, 0%, 85%);
+    transition: 0.3s text-decoration ease, 0.3s border ease, 0.3s opacity ease;
+
+    // Position button
+    margin: 0;
+    min-width: 3rem;
+    padding: 0 10px;
+    line-height: 3.6rem;
+
+
+
+    // Prevent multi line buttons.
+    max-height: 2.8rem;
+    max-width: 100%;
+    overflow: hidden;
+
+    // Set margin
+    margin: 0.6rem;
+    margin-left: 0rem;
+    margin-right: 0rem;
+    & + & {
+        margin-left: 0.7rem;
+    }
+
+    // Set button size
+    line-height: 2rem;
+
+    // Align text
+    padding-top: 0.1rem;
+    padding-bottom: 0.5rem;
+
+    // Style button
+    font-size: 1.4rem;
+    border: 1px solid hsl(0, 0%, 27%);
+
+    // Set best looking font with small-caps.
+    font-family: Arial;
+
+    // Change background on hover
+    background-color: hsl(0, 0%, 0%);
+    &:hover {
+        background-color: hsl(0, 0%, 10%);
+    }
+
+    & > .glyphicon { // used with the same element as glyphicons
+        // Position button
+        position: relative;
+        display: inline-block;
+        top: 3px;
+        margin-right: 4px;
+    }
+
+    // Text color
+    color: hsl(0, 0%, 10%);
+    border: 1px solid hsl(0, 0%, 73%);
+
+    // Change background on hover
+    background-color: hsl(0, 0%, 100%);
+    &:hover {
+        color: hsl(0, 0%, 10%);
+        background-color: hsl(0, 0%, 90%);
+    }
+
+
+    width: 100%;
+    margin: 0;
+    margin-left: 0 !important;
+    border-top: none;
+    border-bottom: none;
+}

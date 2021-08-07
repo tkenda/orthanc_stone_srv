@@ -1,0 +1,135 @@
+$gray: gray;
+$blue: hsla(204, 70%, 53%, 0.7);
+$red: rgba(206, 0, 0, 0.7);
+$green: rgba(0, 160, 27, .7);
+$yellow: rgba(220, 200  , 0, .9);
+$violet: rgba(255, 31, 255, .7);
+
+.wv-overlay {
+    // width&height is 0x0 to avoid capturing viewport events
+    color: orange;
+}
+
+.wv-overlay-icon {
+    width: 64px;    
+}
+
+.wvOverlay__studyBadge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: $gray;
+    z-index: 1;
+}
+
+.wv-overlay-topleft {
+    position: absolute;
+    top: 0rem;
+    left: 0rem;
+    text-align: left;
+}
+
+.wv-overlay-topright {
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+    text-align: right;
+}
+
+.wv-overlay-bottomright {
+    position: absolute;
+    bottom: 2em; // save 2em for the timeline
+    right: 0rem;
+    text-align: right;
+}
+
+.wv-overlay-bottomleft {
+    position: absolute;
+    bottom: 2em; // save 2em for the timeline
+    left: 0rem;
+    text-align: left;
+}
+
+.wv-overlay-timeline-wrapper {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1; // Make sure the representation of the selected image on the timeline appear on top of other overlay panels
+}
+
+.wv-overlay-topleft, .wv-overlay-topright, .wv-overlay-bottomright, .wv-overlay-bottomleft {
+    padding: 2rem;
+    transition: color 500ms, background-color 500ms;
+    background-color: rgba(0, 0, 0, 0.66);
+}
+
+.wv-overlay-topleft:hover, .wv-overlay-topright:hover, .wv-overlay-bottomright:hover, .wv-overlay-bottomleft:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.wvPaneOverlay {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+
+    font-weight: 100;
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+}
+
+.wv-overlay-scrollbar-loaded {
+    position: absolute;
+    bottom:0;
+    left:0;
+    height: 5px;
+    background-color: red;
+    will-change: right;
+    transform-origin: 0% 50%;
+}
+
+.wv-overlay-scrollbar-loading {
+    position: absolute;
+    bottom:0;
+    left:0;
+    height: 5px;
+    background-color: #660000;
+    will-change: right;
+    transform-origin: 0% 50%;
+}
+
+.wv-overlay-scrollbar-text {
+    position: absolute;
+    bottom: calc(1em + 5px);
+    left: 5px;
+    height: 1em;
+    color: red;
+    font-size: 0.8em;
+    font-family: helvetica;
+}
+
+// Color related modifiers
+.wvOverlay__studyBadge--blue {
+    @extend .wvOverlay__studyBadge;
+    background-color: $blue;
+}
+.wvOverlay__studyBadge--red {
+    @extend .wvOverlay__studyBadge;
+    background-color: $red;
+}
+.wvOverlay__studyBadge--green {
+    @extend .wvOverlay__studyBadge;
+    background-color: $green;
+}
+.wvOverlay__studyBadge--yellow {
+    @extend .wvOverlay__studyBadge;
+    background-color: $yellow;
+}
+.wvOverlay__studyBadge--violet {
+    @extend .wvOverlay__studyBadge;
+    background-color: $violet;
+}

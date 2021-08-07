@@ -1,0 +1,33 @@
+.wv-loadingbar-image-bar {
+    cursor: pointer;
+}
+.wv-loadingbar-not-loaded {
+    fill: rgba(255, 255, 255, 0.1);
+}
+.wv-loadingbar-not-loaded, .wv-loadingbar-LOW-quality {
+    transition: none;
+}
+.wv-loadingbar-not-loaded:hover {
+    fill: rgba(255, 255, 255, 0.2);
+}
+.wv-loadingbar-LOSSLESS-quality, .wv-loadingbar-PIXELDATA-quality {
+    fill:rgba(0, 255, 0, 0.7);
+}
+.wv-loadingbar-LOSSLESS-quality:hover,
+.wv-loadingbar-LOSSLESS-quality.wv-loadingbar-active,
+.wv-loadingbar-PIXELDATA-quality:hover,
+.wv-loadingbar-PIXELDATA-quality.wv-loadingbar-active {
+    fill:rgba(0, 255, 0, 1);
+}
+.wv-loadingbar-LOW-quality {
+    fill:rgba(255, 0, 0, 0.7);
+}
+.wv-loadingbar-LOW-quality:hover, .wv-loadingbar-LOW-quality.wv-loadingbar-active {
+    fill:rgba(255, 0, 0, 1);
+}
+.wv-loadingbar-MEDIUM-quality {
+    fill:rgba(255, 95, 0, 0.7);
+}
+.wv-loadingbar-MEDIUM-quality:hover, .wv-loadingbar-MEDIUM-quality.wv-loadingbar-active {
+    fill:rgba(255, 95, 0, 1);
+}

@@ -1,0 +1,15 @@
+
+Origin of SCSS
+==============
+
+The "Styles" folder is a copy of:
+https://bitbucket.org/osimis/osimis-webviewer-plugin/src/master/frontend/src/styles/
+
+
+
+Generation of CSS from the SCSS
+===============================
+
+$ npm install node-sass
+$ ./node_modules/node-sass/bin/node-sass ./Styles/styles.scss > ../WebApplication/app.css
+$ ./GenerateImages.py

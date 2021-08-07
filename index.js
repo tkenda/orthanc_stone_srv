@@ -2,20 +2,39 @@ var http = require('http');
 var httpProxy = require('http-proxy');
 var static = require('node-static');
 const path = require('path');
+const fs = require('fs');
+
+const server = JSON.parse(fs.readFileSync('server.json'));
 
 var front = new(static.Server)(path.join(__dirname, 'front'));
 var proxy = httpProxy.createProxyServer({});
 
-proxy.on('proxyReq', function(proxyReq, _req, _res, _options) {
-    proxyReq.setHeader('X-WADO-Client', 'orthanc');
-});
+if (typeof server.header !== 'undefined') {
+    if (typeof server.header.name !== 'undefined' && typeof server.header.value !== 'undefined') {
+        proxy.on('proxyReq', function(proxyReq, _req, _res, _options) {
+            proxyReq.setHeader(server.header.name, server.header.value);
+        });
+    } else {
+        console.log("Invalid header name or value in server.json file.");
+        return;
+    }
+}
 
-var server = http.createServer(function(req, res) {
+if (typeof server.proxy === 'undefined') {
+    console.log("Missing proxy URL in server.json file.");
+    return;
+} else {
+    console.log("Proxy URL: "+server.proxy);
+}
+
+const port = (typeof server.port === 'undefined') ? 3000 : server.port;
+
+http.createServer(function(req, res) {
     if (req.url.split('/')[1] == 'dicom-web') {
-        proxy.web(req, res, { target: 'http://127.0.0.1:8080/api/v1/' });
+        proxy.web(req, res, { target: server.proxy });
     } else {
         front.serve(req, res);
     }
-});
+}).listen(port);
 
-server.listen(3000);
+console.log("Listening on port "+port+".");

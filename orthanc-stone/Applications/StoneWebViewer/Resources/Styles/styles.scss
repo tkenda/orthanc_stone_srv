@@ -1,0 +1,32 @@
+// bower:scss
+// endbower
+
+@import "webviewer.main.scss";
+@import "webviewer.components.scss";
+
+
+@media print {
+    @import "print";
+}
+
+.closePrintButton{
+    display:none;
+}
+
+body.print{
+    @import "print";
+
+    @media screen {
+        .closePrintButton{
+            display:block;
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            font-size: 24px;
+            background-color: black;
+            color: white;
+            border: none;
+        }
+    }
+}

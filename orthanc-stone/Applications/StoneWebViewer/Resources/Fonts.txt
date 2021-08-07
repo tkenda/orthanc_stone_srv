@@ -1,0 +1,104 @@
+
+
+Tools for handling TTF and WOFF2
+================================
+
+https://fr.wikipedia.org/wiki/Web_Open_Font_Format_2
+
+
+Print info about a TTF
+----------------------
+
+$ sudo apt-get install fontconfig
+$ fc-query ./2017-11-13-OpenSans-Regular.ttf
+
+  => The "lang" and the "capability" are interesting to know the
+  supported language. "en" and "otlayout:latn" are a must.
+
+
+Get version of a TTF
+--------------------
+
+$ fc-query -f '%{fontversion}\n' ./OpenSans/2017-11-13-OpenSans-Regular.ttf | \
+  grep -v 'id' | perl -E 'printf "%.3f\n", <>/65536.0'
+
+  => "1.100" indicates version "1.1"
+
+Source: https://stackoverflow.com/a/43614521/881731
+
+
+Conversion from TTF to WOFF2
+----------------------------
+
+$ sudo apt install woff2
+$ woff2_compress 2017-11-13-OpenSans-Regular.ttf 
+
+Source: https://dev.to/benjaminblack/converting-ttf-fonts-to-woff2-and-woff-3f5b
+
+
+
+OpenSans
+========
+
+General information
+-------------------
+
+Official repository:
+https://github.com/googlefonts/opensans/tree/master/
+
+License:
+Apache License 2.0
+
+Google Fonts:
+https://fonts.google.com/specimen/Open+Sans#license
+
+Google CDN:
+https://fonts.googleapis.com/css?family=Open+Sans
+
+Debian package:
+
+$ sudo apt-get install fonts-open-sans
+$ ls -l /usr/share/fonts/truetype/open-sans/
+
+
+Playing with the CDN
+--------------------
+
+To fetch the WOFF2 from CDN (selecting WOFF2 instead of TTF is done by
+setting the HTTP Header User-Agent):
+
+$ cd /tmp
+$ curl -H 'User-Agent: AppleWebKit/537 Chrome/85' 'https://fonts.googleapis.com/css?family=Open+Sans'
+  => The "latin" section is what we're looking for
+$ wget https://fonts.gstatic.com/s/opensans/v18/mem8YaGs126MiZpBA-UFVZ0b.woff2
+
+
+To fetch the TTF from CDN:
+
+$ curl 'https://fonts.googleapis.com/css?family=Open+Sans'
+$ wget https://fonts.gstatic.com/s/opensans/v18/mem8YaGs126MiZpBA-UFVZ0e.ttf
+$ woff2_compress mem8YaGs126MiZpBA-UFVZ0e.ttf 
+$ diff -s ./mem8YaGs126MiZpBA-UFVZ0e.woff2 ./mem8YaGs126MiZpBA-UFVZ0b.woff2
+
+  => The files are identical
+
+
+As of 2020-11-19, the version of the TTF is "1.101":
+
+$ fc-query -f '%{fontversion}\n' ./mem8YaGs126MiZpBA-UFVZ0e.ttf | \
+  grep -v 'id' | perl -E 'printf "%.3f\n", <>/65536.0'
+
+
+
+Generation of the "./OpenSans" folder
+-------------------------------------
+
+$ mkdir ./OpenSans
+$ cd ./OpenSans
+$ REVISION=c0d8ce7dd46291a5d429ac537ddcd3617f4dc229
+$ wget https://github.com/googlefonts/opensans/raw/master/LICENSE.txt
+$ curl https://raw.githubusercontent.com/googlefonts/opensans/${REVISION}/ttfs/OpenSans-Regular.ttf > 2017-11-13-OpenSans-Regular.ttf
+$ woff2_compress 2017-11-13-OpenSans-Regular.ttf
+
+  => Note that the version of the TTF font is "2.010" (so more recent
+  than the font on Google Fonts CDN)

@@ -1,0 +1,67 @@
+
+Building WebAssembly samples using Docker
+=========================================
+
+The script "./docker-build.sh" can be used to quickly build the
+WebAssembly samples on any GNU/Linux distribution equipped with
+Docker. This avoids newcomers to install Emscripten and learn the
+CMake options. Just type:
+
+$ ./docker-build.sh Release
+
+After successful build, the binaries will be installed in the
+following folder (i.e. in the folder "wasm-binaries" at the root of
+the source distribution):
+
+$ ls -l ../../wasm-binaries
+
+
+NB: The source code of the Docker build environment can be found at
+the following location:
+https://github.com/jodogne/OrthancDocker/tree/master/wasm-builder
+
+
+Native compilation (without Docker)
+===================================
+
+Install Emscripten:
+https://emscripten.org/docs/getting_started/downloads.html
+
+Then, if the installation path is "~/Downloads/emsdk/":
+
+# source ~/Downloads/emsdk/emsdk_env.sh
+# mkdir Build && cd Build
+# cmake .. -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE=${EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+  -DALLOW_DOWNLOADS=ON -G Ninja
+# ninja install
+
+=> The binaries will be put in "../../../wasm-binaries/StoneWebViewer/"
+
+
+Debian unstable
+===============
+
+Last update: 2020-11-18
+
+IMPORTANT - Currently broken: The linker fails on Debian Sid with the
+default package. A workaround is available using "experimental"
+packages:
+https://github.com/emscripten-core/emscripten/issues/11895#issuecomment-729840497
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=975069
+
+
+# sudo apt-get install emscripten python3-clang python3-pystache ninja-build
+# mkdir Build && cd Build
+# EMSCRIPTEN=/usr/bin/ cmake .. -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE=/usr/share/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+  -DLIBCLANG=/usr/lib/x86_64-linux-gnu/libclang-9.so \
+  -DALLOW_DOWNLOADS=ON -G Ninja
+# ninja install
+
+=> The binaries will be put in "../../../wasm-binaries/StoneWebViewer/"
+
+The invokation of CMake will give the following warning, that can be safely ignored:
+
+"System is unknown to cmake, create:
+Platform/Emscripten to use this system, please post your config file on discourse.cmake.org so it can be added to cmake"

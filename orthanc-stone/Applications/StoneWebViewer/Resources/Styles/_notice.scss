@@ -1,0 +1,55 @@
+wv-notice {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.wvNotice {
+    // Set padding
+    padding: 0.5rem 0.25rem;
+
+    // Fill parent element so text can be centered
+    height: 100%;
+}
+
+.wvNotice__text {
+    // Center text 
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    margin-left: 1rem;
+
+    // Text style
+    font-weight: 400;
+    color: hsl(0, 0%, 70%);
+
+    // Keep space for button
+    float: left;
+    width: calc(100% - 7rem); // 3.5 rem + 3 rem margin (incl. button margin + text margin)
+}
+
+.wvNotice__closeButton {
+    // Position button on right
+    float: right;
+    margin-right: 0.5em;
+
+    // Center button vertically
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
+    // Set button size
+    width: 3.5rem;
+    height: 2.5rem; // half the bottom zone height
+
+    // Configure button icon
+    text-align: center;
+    font-size: 1em;
+    font-weight: 100;
+    line-height: 2.2rem;
+
+    // Set button style
+    cursor: pointer;
+    border: 1px solid hsl(0, 0%, 27%);
+}

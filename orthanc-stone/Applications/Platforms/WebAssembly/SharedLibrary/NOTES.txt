@@ -1,0 +1,18 @@
+
+Install Emscripten:
+https://emscripten.org/docs/getting_started/downloads.html
+
+# cd ~/Downloads
+# git clone https://github.com/emscripten-core/emsdk.git
+# cd emsdk
+# ./emsdk install 2.0.0
+# ./emsdk activate 2.0.0
+
+
+Then, if the installation path was "~/Downloads/emsdk/":
+
+# source ~/Downloads/emsdk/emsdk_env.sh
+# cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DALLOW_DOWNLOADS=ON -G Ninja
+# ninja install
+
+=> The binaries will be put in "../../../../wasm-binaries/"

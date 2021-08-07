@@ -1,0 +1,80 @@
+$gray: gray;
+$blue: hsla(204, 70%, 53%, 0.7);
+$red: rgba(206, 0, 0, 0.7);
+$green: rgba(0, 160, 27, .7);
+$yellow: rgba(220, 200  , 0, .9);
+$violet: rgba(255, 31, 255, .7);
+
+.wvSplitpane {
+    height: 100%;
+    padding: 7px 2px 2px 2px;
+
+    // Anchor
+    position: relative;
+}
+.wvSplitpane__cell {
+    display: inline-block;
+    float: left;
+    height: 100%;
+    width: 100%;
+
+    // Anchor
+    position: relative;
+}
+.wvSplitpane__cellBorder,
+%wvSplitpane__cellBorder {
+    display: inline-block;
+    float: left;
+    height: calc(100% - 2px);
+    width: calc(100% - 2px);
+
+    border: 2px dashed transparent;
+
+    padding: 2px;
+    margin: 1px;
+}
+.wvSplitpane__cellBorder--selected {
+    @extend .wvSplitpane__cellBorder;
+
+    // Add border
+    border: 2px solid $blue;
+}
+
+// Color modifiers
+.wvSplitpane__cellBorder--blue {
+    @extend .wvSplitpane__cellBorder;
+    border-color: $blue;
+}
+
+.wvSplitpane__cellBorder--red {
+    @extend .wvSplitpane__cellBorder;
+    border-color: $red;
+}
+
+.wvSplitpane__cellBorder--green {
+    @extend .wvSplitpane__cellBorder;
+    border-color: $green;
+}
+
+.wvSplitpane__cellBorder--yellow {
+    @extend .wvSplitpane__cellBorder;
+    border-color: $yellow;
+}
+
+.wvSplitpane__cellBorder--violet {
+    @extend .wvSplitpane__cellBorder;
+    border-color: $violet;
+}
+
+// Make sure the pane keeps its size
+wv-pane-policy {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    > div[ng-transclude] {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}

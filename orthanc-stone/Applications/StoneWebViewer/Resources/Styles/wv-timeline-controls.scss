@@ -1,0 +1,194 @@
+/* wv-timeline-controls directive */
+.wv-timeline-controls {
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    line-height: 1em;
+    background-color: rgba(0, 0, 0, 0.66);
+
+    text-align: center;
+
+    transition: color 500ms, background-color 500ms;
+}
+
+.wv-timeline-controls:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+// Used to make sure buttons doesn't break the style
+.wv-timeline-controls-vertical-sizing {
+    display: inline-block; 
+    line-height: 1em;
+    font-size: 1em;
+}
+
+.wv-timeline-controls-vflip {
+    // flip only the icon
+    &:before, &:after{
+        transform: scaleX(-1);
+        display: inline-block;
+    }
+}
+
+.wv-timeline-controls-button {
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    line-height: 1em;
+    font-size: 1em;
+    margin: 0;
+
+    user-select: none;
+    cursor: pointer;
+}
+
+.wv-timeline-controls-input {
+    height: 1em;
+    width: 3em;
+    padding: 0;
+    padding-bottom: 1px;
+    box-sizing: content-box;
+
+    border: none;
+    border-bottom: 1px solid hsla(35, 100%, 75%, 0.24);
+    background-color: transparent;
+    
+    text-align: right;
+}
+
+// Display play button on the right side
+.wv-timeline-controls-play-button-wrapper {
+    float: right;
+}
+
+/* wv-play-button directive */
+.wv-play-button {
+    display: inline-block;
+    position: relative;
+    line-height: 1em;
+
+    // This is for the boxing box
+    height: 3em;
+    width: 6em;
+    padding-bottom: 1em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+}
+
+.wv-play-button:hover .wv-play-button-config-position-handler {
+    visibility: visible;
+}
+
+// This is a 0x0 div to set the position
+.wv-play-button-config-position-handler {
+    visibility: hidden;
+    position: absolute;
+    bottom: 3em;
+    left: 1em;
+    right: 0.5em;
+    // z-index: 2;
+}
+
+// The layout of play configuration
+.wv-play-button-config {
+    position: absolute;
+    bottom: 0;
+    left: -6em;
+    width: 12em;
+    padding: 1em;
+    background-color: hsla(0,1,0, 0.5);
+}
+
+/* Style range input (see http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html) */
+
+.wv-play-button-config-framerate-wrapper {
+    display: inline-block;
+    margin: 0.25em 0 0.5em 0;
+}
+input[type="range"].wv-play-button-config-framerate {
+    /*removes default webkit styles*/
+    -webkit-appearance: none;
+    
+    /*fix for FF unable to apply focus style bug */
+    border: 1px solid white;
+    
+    /*required for proper track sizing in FF*/
+    width: 10em;
+}
+input[type="range"].wv-play-button-config-framerate::-webkit-slider-runnable-track {
+    width: 10em;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+input[type="range"].wv-play-button-config-framerate::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: goldenrod;
+    margin-top: -4px;
+}
+input[type="range"].wv-play-button-config-framerate:focus {
+    outline: none;
+}
+input[type="range"].wv-play-button-config-framerate:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+
+input[type="range"].wv-play-button-config-framerate::-moz-range-track {
+    width: 10em;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+input[type="range"].wv-play-button-config-framerate::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: goldenrod;
+}
+
+/*hide the outline behind the border*/
+input[type="range"].wv-play-button-config-framerate:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+input[type="range"].wv-play-button-config-framerate::-ms-track {
+    width: 10em;
+    height: 5px;
+    
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    background: transparent;
+    
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-color: transparent;
+    border-width: 6px 0;
+
+    /*remove default tick marks*/
+    color: transparent;
+}
+input[type="range"].wv-play-button-config-framerate::-ms-fill-lower {
+    background: #777;
+    border-radius: 10px;
+}
+input[type="range"].wv-play-button-config-framerate::-ms-fill-upper {
+    background: #ddd;
+    border-radius: 10px;
+}
+input[type="range"].wv-play-button-config-framerate::-ms-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: goldenrod;
+}
+input[type="range"].wv-play-button-config-framerate:focus::-ms-fill-lower {
+    background: #888;
+}
+input[type="range"].wv-play-button-config-framerate:focus::-ms-fill-upper {
+    background: #ccc;
+}

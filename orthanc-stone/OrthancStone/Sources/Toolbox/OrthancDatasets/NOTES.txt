@@ -1,0 +1,3 @@
+The files from this folder were previously (up to Orthanc <= 1.7.1)
+contained in the folder "Plugins/Samples/Common/" from the Orthanc
+source distribution.

@@ -1,0 +1,88 @@
+
+Some notes about the lifetime of objects
+========================================
+
+Stone applications
+------------------
+
+A typical Stone application can be split in 3 parts:
+
+1- The "loaders part" and the associated "IOracle", that communicate
+   through "IMessage" objects. The lifetime of these objects is
+   governed by the "IStoneContext".
+
+2- The "data part" holds the data loaded by the "loaders part". The
+   related objects must not be aware of the oracle, neither of the
+   messages. It is up to the user application to store these objects.
+
+3- The "viewport part" is based upon the "Scene2D" class.
+
+
+Multithreading
+--------------
+
+* Stone makes the hypothesis that its objects live in a single thread.
+  All the content of the "Framework" folder (with the exception of
+  the "Oracle" stuff) must not use "boost::thread".
+
+* The "IOracleCommand" classes represent commands that must be
+  executed asynchronously from the Stone thread. Their actual
+  execution is done by the "IOracle".
+
+* In WebAssembly, the "IOracle" corresponds to the "html5.h"
+  facilities (notably for the Fetch API). There is no mutex here, as
+  JavaScript is inherently single-threaded.
+
+* In plain C++ applications, the "IOracle" corresponds to a FIFO queue
+  of commands that are executed by a pool of threads. The Stone
+  context holds a global mutex, that must be properly locked by the
+  user application, and by the "IOracle" when it sends back messages
+  to the Stone loaders (cf. class "IMessageEmitter").
+
+* Multithreading is thus achieved by defining new oracle commands by
+  subclassing "IOracleCommand", then by defining a way to execute them
+  (cf. class "GenericCommandRunner").
+
+
+References between objects
+--------------------------
+
+* An object allocated on the heap must never store a reference/pointer
+  to another object.
+
+* A class designed to be allocated only on the stack can store a
+  reference/pointer to another object. Here is the list of
+  such classes:
+
+  - IMessage and its derived classes: All the messages are allocated
+    on the stack.
+
+
+Pointers
+--------
+
+* As we are targeting C++03 (for VS2008 and LSB compatibility), use
+  "std::unique_ptr<>" and "boost::shared_ptr<>" (*not*
+  "std::shared_ptr<>"). We provide an implementation of std::unique_ptr for
+  pre-C++11 compilers.
+
+* The fact of transfering the ownership of one object to another must
+  be tagged by naming the method "Acquire...()", and by providing a
+  raw pointer.
+
+* Use "std::unique_ptr<>" if the goal is to internally store a pointer
+  whose lifetime corresponds to the host object.
+
+* The use of "boost::weak_ptr<>" should be restricted to
+  oracle/message handling.
+
+* The use of "boost::shared_ptr<>" should be minimized to avoid
+  clutter. The "loaders" and "data parts" objects must however
+  be created as "boost::shared_ptr<>".
+
+
+Global context
+--------------
+
+* As the global Stone context can be created/destroyed by other
+  languages than C++, we don't use a "boost:shared_ptr<>".

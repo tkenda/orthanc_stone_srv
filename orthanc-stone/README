@@ -1,0 +1,143 @@
+Stone of Orthanc
+================
+
+General Information
+-------------------
+
+This repository contains the source code of Stone of Orthanc.
+
+Stone of Orthanc is a lightweight, cross-platform C++ framework for
+the rendering of medical images. It is a companion toolkit to the main
+Orthanc DICOM server. It notably features support for MPR (multiplanar
+reconstruction of volume images), PET-CT fusion, and accurate physical
+world coordinates.
+
+Stone of Orthanc can take advantage of OpenGL/WebGL to accelerate 2D
+rendering using the GPU. 3D operations such as reslicing are done
+using CPU.
+
+Stone of Orthanc is compatible with any GUI framework (such as Qt,
+wxWidgets, MFC...). The provided sample applications use the SDL
+framework.
+
+Very importantly, Stone of Orthanc is compatible with WebAssembly,
+which makes it suitable to render medical images in Web applications.
+
+As a library for medical imaging, Stone of Orthanc also comes with
+primitives to download, parse and handle DICOM images. These
+primitives can use either the REST API of the Orthanc server, or the
+DICOMweb protocol. Primitives to deal with radiotherapy or nuclear
+medicine studies are available as well (image fusion using layers).
+
+Besides the low-level Stone of Orthanc library, this repository also
+contains the Stone Web viewer. The Stone Web viewer is a
+fully-featured Web viewer that can be either used as a plugin to
+Orthanc, or as a standalone viewer if using DICOMweb.
+
+
+Comparison
+----------
+
+Stone of Orthanc is quite similar to two other well-known toolkits:
+
+* Cornerstone, a client-side JavaScript toolkit to display medical
+  images in Web browsers, by Chris Hafey <chafey@gmail.com>:
+  https://github.com/chafey/cornerstone
+
+  Contrarily to Cornerstone, Stone of Orthanc is written in C++ and
+  can be embedded into native, heavyweight applications.
+
+* VTK, a C++ toolkit for scientific visualization, by Kitware:
+  http://www.vtk.org/
+
+  Contrarily to VTK, Stone of Orthanc is much more simple, and only
+  uses the GPU for 2D rendering.
+
+
+Dependencies
+------------
+
+Stone of Orthanc is based upon the following projects:
+
+* Orthanc, a lightweight Vendor Neutral Archive (DICOM server):
+  http://www.orthanc-server.com/
+
+* Cairo and pixman, a cross-platform 2D graphics library:
+  https://www.cairographics.org/
+
+* Optionally, SDL, a cross-platform multimedia library:
+  https://www.libsdl.org/
+
+  On Ubuntu, you would use:
+
+  $ sudo apt-get install -y libcairo-dev libpixman-1-dev libsdl2-dev
+
+* Optionally, Emscripten, the official compiler for WebAssembly:
+  https://emscripten.org/
+
+
+Installation and usage
+----------------------
+
+Build instructions and usage details are available as part of the
+Orthanc Book:
+http://book.orthanc-server.com/developers/stone.html
+
+Stone of Orthanc comes with several sample applications in the
+"Applications/Samples" folder. Please check the
+"Applications/Samples/README.md" file for information on the samples
+building and running procedure.
+
+The source code of the Stone Web viewer is located in folder
+"Applications/StoneWebViewer".
+
+
+Technical information
+---------------------
+
+- For situations where OpenGL is not available, Stone of Orthanc comes
+  bundled with its own software-based rendering engine (based upon
+  cairo and pixman). This engine will use CPU hardware acceleration if
+  available (notably SSE2, SSSE3, and NEON instruction sets), but not
+  the GPU. This makes Stone a highly versatile framework that can run
+  even on low-performance platforms.
+
+- Stone of Orthanc is compatible with desktop software, with native
+  mobile apps and with Web applications. To achieve this
+  compatibility, the rendering loop of Stone of Orthanc is
+  single-threaded, and abstracts network transfers and other
+  asynchronous events thanks to a so-called "Oracle". The Oracle is
+  the place where architecture-specific operations/computations can
+  take place (for instance, multi-threading).
+
+
+Licensing
+---------
+
+Stone of Orthanc is licensed under the AGPLv3+ license.
+
+The files in the "./OrthancStone/Sources/" sub-directory are licensed
+under the LGPLv3+ (Lesser GPL). The related COPYING file can be found
+in "./OrthancStone/".
+
+We also kindly ask scientific works and clinical studies that make use
+of Orthanc to cite Orthanc in their associated publications.
+Similarly, we ask open-source and closed-source products that make use
+of Orthanc to warn us about this use. You can cite our work using the
+following BibTeX entry:
+
+@Article{Jodogne2018,
+  author="Jodogne, S{\'e}bastien",
+  title="The {O}rthanc Ecosystem for Medical Imaging",
+  journal="Journal of Digital Imaging",
+  year="2018",
+  month="Jun",
+  day="01",
+  volume="31",
+  number="3",
+  pages="341--352",
+  issn="1618-727X",
+  doi="10.1007/s10278-018-0082-y",
+  url="https://doi.org/10.1007/s10278-018-0082-y"
+}
+
