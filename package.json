@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "http-proxy": "^1.18.1",
+    "node-static": "^0.7.11"
+  },
+  "name": "stone-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
