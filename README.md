@@ -7,9 +7,9 @@ sudo apt-get install -y nodejs
 npm install
 npm start
 
-# Download last respository and build all (for Ubuntu)
+# Build all (for Ubuntu)
 
 ## Install Docker
 Follow official page https://docs.docker.com/engine/install/ubuntu/
 
-sh build.sh
+sudo sh build.sh
