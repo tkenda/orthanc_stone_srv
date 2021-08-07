@@ -1,15 +1,18 @@
-# Quickstart
+# Non-official fork from Orthanc's [Stone Web Viewer](https://www.orthanc-server.com/static.php?page=stone-web-viewer)
 
-## Install NodeJS
+The front end is already built. The NodeJS static web server acts also as a proxy to the DICOM WADO server.
+
+### Install NodeJS
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt-get install -y nodejs
+
+Configure correctly server.json.
 
 npm install
 npm start
 
-# Build all (for Ubuntu)
+### You could build the last version in Ubuntu
 
-## Install Docker
-Follow official page https://docs.docker.com/engine/install/ubuntu/
+Install Docker following the official page https://docs.docker.com/engine/install/ubuntu/
 
 sudo sh build.sh
