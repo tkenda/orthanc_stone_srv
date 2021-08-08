@@ -9,6 +9,17 @@ const server = JSON.parse(fs.readFileSync('server.json'));
 var front = new(static.Server)(path.join(__dirname, 'front'));
 var proxy = httpProxy.createProxyServer({});
 
+proxy.on('error', function (error, _req, res) {
+    if (!res.headersSent) {
+        res.writeHead(500, { 'content-type': 'application/json' });
+    }
+
+    res.end(JSON.stringify({ 
+        error: 'proxy_error', 
+        reason: error.message 
+    }));
+});
+
 if (typeof server.header !== 'undefined') {
     if (typeof server.header.name !== 'undefined' && typeof server.header.value !== 'undefined') {
         proxy.on('proxyReq', function(proxyReq, _req, _res, _options) {
