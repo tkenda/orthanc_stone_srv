@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "fs-extra": "^10.0.0",
     "http-proxy": "^1.18.1",
-    "node-static": "^0.7.11"
+    "node-static": "^0.7.11",
+    "unzipper": "^0.10.11"
   },
   "name": "stone-server",
   "version": "1.0.0",

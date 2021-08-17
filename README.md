@@ -16,9 +16,15 @@ npm install
 npm start
 ```
 
-### You could build the latest version (only for Ubuntu)
+### To update the latest front-end (easy way).
 
-Install Docker following the official page https://docs.docker.com/engine/install/ubuntu/
+```
+node download.js
+```
+
+### Or build the latest version from repository (only for Ubuntu)
+
+- Install Docker following the official page https://docs.docker.com/engine/install/ubuntu/
 
 ```
 sudo sh build.sh
