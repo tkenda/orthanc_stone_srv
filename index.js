@@ -3,7 +3,10 @@ var httpProxy = require('http-proxy');
 var static = require('node-static');
 const path = require('path');
 const fs = require('fs');
-const { type } = require('os');
+
+const system = require('./system');
+const lookup = require('./lookup');
+const archive = require('./archive');
 
 const server = JSON.parse(fs.readFileSync('server.json'));
 
@@ -40,34 +43,23 @@ if (typeof server.proxy === 'undefined') {
 }
 
 const port = (typeof server.port === 'undefined') ? 3000 : server.port;
+const isProteus = (typeof server.isProteus === 'undefined') ? true : server.isProteus;
 
 http.createServer(function (req, res) {
-    let chunk = req.url.split('/')[1];
-    if (chunk == 'dicom-web') {
+    if (req.url.split('/')[1] === 'dicom-web') {
+        // Proxy WADO server
         proxy.web(req, res, { target: server.proxy });
-    } else if (chunk == 'system') {
-        let isHttpServerSecure;
-        if (typeof server.isHttpServerSecure !== 'undefined') {
-            isHttpServerSecure = server.isHttpServerSecure;
-        } else {
-            isHttpServerSecure = false;
-        }
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({
-            "ApiVersion": 14,
-            "CheckRevisions": false,
-            "DatabaseBackendPlugin": null,
-            "DatabaseVersion": 0,
-            "DicomAet": "STONE",
-            "DicomPort": 4242,
-            "HttpPort": 8042,
-            "IsHttpServerSecure": isHttpServerSecure,
-            "Name": "MyStone",
-            "PluginsEnabled": false,
-            "StorageAreaPlugin": null,
-            "Version": "1.9.5"
-        }));
+    } else if (req.url === '/system') {
+        // Simulate Orthanc PACS response
+        system(server, req, res);
+    } else if (isProteus && req.url === '/tools/lookup') {
+        // Translate /tools/lookup (for Proteus PACS)
+        lookup(server, req, res);
+    } else if (isProteus && req.url.split('/')[1] === 'studies') {
+        // Translate /studies/*/archive (for Proteus PACS)
+        archive(server, req, res);
     } else {
+        // Use static local files
         front.serve(req, res);
     }
 }).listen(port);
