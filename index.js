@@ -43,7 +43,7 @@ if (typeof server.proxy === 'undefined') {
 }
 
 const port = (typeof server.port === 'undefined') ? 3000 : server.port;
-const isProteus = (typeof server.isProteus === 'undefined') ? true : server.isProteus;
+const isProteus = (typeof server.proteus === 'undefined') ? false : true;
 
 http.createServer(function (req, res) {
     if (req.url.split('/')[1] === 'dicom-web') {
