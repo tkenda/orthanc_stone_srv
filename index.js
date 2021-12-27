@@ -46,16 +46,22 @@ const port = (typeof server.port === 'undefined') ? 3000 : server.port;
 const isProteus = (typeof server.proteus === 'undefined') ? false : true;
 
 http.createServer(function (req, res) {
-    if (req.url.split('/')[1] === 'dicom-web') {
-        // Proxy WADO server
-        proxy.web(req, res, { target: server.proxy });
+    let chunks = req.url.split('/');
+    if (chunks[1] === 'dicom-web') {
+        if (chunks[chunks.length-1].split('?')[0]=="rendered") {
+            req.url = req.url.split('?')[0];
+            proxy.web(req, res, { target: server.proxy });
+        } else {
+            // Proxy WADO server
+            proxy.web(req, res, { target: server.proxy });
+        }
     } else if (req.url === '/system') {
         // Simulate Orthanc PACS response
         system(server, req, res);
     } else if (isProteus && req.url === '/tools/lookup') {
         // Translate /tools/lookup (for Proteus PACS)
         lookup(server, req, res);
-    } else if (isProteus && req.url.split('/')[1] === 'studies') {
+    } else if (isProteus && chunks[1] === 'studies') {
         // Translate /studies/*/archive (for Proteus PACS)
         archive(server, req, res);
     } else {

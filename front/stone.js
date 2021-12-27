@@ -32,6 +32,7 @@ const Stone = function() {
   this._SetDicomWebThroughOrthanc = undefined;
   this._AddHttpHeader = undefined;
   this._SetDicomCacheSize = undefined;
+  this._SetSkipSeriesFromModalities = undefined;
   this._FetchAllStudies = undefined;
   this._FetchPatient = undefined;
   this._FetchStudy = undefined;
@@ -80,6 +81,7 @@ Stone.prototype.Setup = function(Module) {
   this._SetDicomWebThroughOrthanc = Module.cwrap('SetDicomWebThroughOrthanc', null, [ 'string', 'string', 'int' ]);
   this._AddHttpHeader = Module.cwrap('AddHttpHeader', null, [ 'string', 'string' ]);
   this._SetDicomCacheSize = Module.cwrap('SetDicomCacheSize', null, [ 'int' ]);
+  this._SetSkipSeriesFromModalities = Module.cwrap('SetSkipSeriesFromModalities', null, [ 'string' ]);
   this._FetchAllStudies = Module.cwrap('FetchAllStudies', null, [  ]);
   this._FetchPatient = Module.cwrap('FetchPatient', null, [ 'string' ]);
   this._FetchStudy = Module.cwrap('FetchStudy', null, [ 'string' ]);
@@ -137,6 +139,10 @@ Stone.prototype.AddHttpHeader = function(header, value) {
 
 Stone.prototype.SetDicomCacheSize = function(sizeMB) {
   this._SetDicomCacheSize(sizeMB);
+};
+
+Stone.prototype.SetSkipSeriesFromModalities = function(value) {
+  this._SetSkipSeriesFromModalities(value);
 };
 
 Stone.prototype.FetchAllStudies = function() {

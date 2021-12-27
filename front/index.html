@@ -243,7 +243,11 @@
                                      />
                                 
                                 <div v-bind:class="'wvSerieslist__badge--' + study.color"
-                                     v-if="series[seriesIndex].numberOfFrames != 0">{{ series[seriesIndex].numberOfFrames }}</div>
+                                     v-if="series[seriesIndex].numberOfFrames != 0 || series[seriesIndex].tags[SERIES_NUMBER] !== undefined">
+                                     <span v-if="series[seriesIndex].tags[SERIES_NUMBER] !== undefined">#{{ series[seriesIndex].tags[SERIES_NUMBER] }}</span>
+                                     <span v-if="series[seriesIndex].numberOfFrames != 0 && series[seriesIndex].tags[SERIES_NUMBER] !== undefined"> - </span>
+                                     <span v-if="series[seriesIndex].numberOfFrames != 0">{{ series[seriesIndex].numberOfFrames }}</span>
+                                </div>
                               </div>
                             </div>
 
@@ -672,7 +676,8 @@
                   </div>
                   <div v-if="'tags' in content.series" class="wv-overlay-topright">
                     {{ content.series.tags[STUDY_DESCRIPTION] }}<br/>
-                    {{ app.FormatDate(content.series.tags[STUDY_DATE]) }}<br/>
+                    <span v-if="contentDate !== undefined && contentDate != ''">{{ app.FormatDate(contentDate) }} <span v-show="contentTime != ''">{{ app.FormatTime(contentTime) }}</span><br/></span>
+                    <span v-else="contentDate === undefined || contentDate == ''">{{ app.FormatDate(content.series.tags[STUDY_DATE]) }}<br/></span>
                     {{ content.series.tags[SERIES_NUMBER] }} | {{ content.series.tags[SERIES_DESCRIPTION] }}
                   </div>
                   <div class="wv-overlay-bottomleft wvPrintExclude" style="bottom: 0px">
@@ -813,9 +818,6 @@
         </div>
       </div>
     </script>
-
-    
-
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/vue.min.js"></script>

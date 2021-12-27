@@ -2330,11 +2330,14 @@ wv-notice {
   line-height: 15px;
   width: 15px;
   height: 15px;
-  border-radius: 100%;
+  border-radius: 5px;
   background-color: gray;
   vertical-align: middle;
   text-align: center;
-  font-weight: bold; }
+  font-weight: bold;
+  width: max-content;
+  padding: 1px 5px;
+  line-height: 12px; }
 
 .wvSerieslist__information {
   font-size: 14px;

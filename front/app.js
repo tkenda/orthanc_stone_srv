@@ -150,7 +150,9 @@ Vue.component('viewport', {
       videoUri: '',
       windowingCenter: 0, 
       windowingWidth: 0,
-      instanceNumber: 0
+      instanceNumber: 0,
+      contentDate: '',
+      contentTime: '',
     }
   },
   watch: {
@@ -171,7 +173,9 @@ Vue.component('viewport', {
       this.windowingCenter = 0;
       this.windowingWidth = 0;
       this.instanceNumber = 0;
-      
+      this.contentDate = '';
+      this.contentTime = ''
+
       if (this.cineTimeoutId !== null) {
         clearTimeout(this.cineTimeoutId);
         this.cineTimeoutId = null;
@@ -255,6 +259,8 @@ Vue.component('viewport', {
         that.numberOfFrames = args.detail.numberOfFrames;
         that.quality = args.detail.quality;
         that.instanceNumber = args.detail.instanceNumber;
+        that.contentDate = args.detail.contentDate;
+        that.contentTime = args.detail.contentTime;
       }
     });
 
@@ -560,6 +566,9 @@ var app = new Vue({
 
       var studies = [];
       var posColor = 0;
+
+      // order series by SeriesNumber
+      sourceSeries.sort((a, b) => {return a[SERIES_NUMBER] - b[SERIES_NUMBER];})
 
       for (var i = 0; i < sourceStudies.length; i++) {
         var studyInstanceUid = sourceStudies[i][STUDY_INSTANCE_UID];
@@ -938,6 +947,43 @@ var app = new Vue({
       }
     },
 
+    FormatTime: function(time)
+    {
+      if (time === undefined ||
+        time.length == 0) {
+        return '';
+      }
+      else {
+        var format = this.globalConfiguration['TimeFormat'];
+        if (format === undefined) {
+          // No configuration for the date format, use the DICOM tag as such
+          return time;
+        }
+        else {
+          var timeRegexHMS = /([0-9]{2})([0-9]{2})([0-9]{2})/;
+          var timeRegexHMSms = /([0-9]{2})([0-9]{2})([0-9]{2}).([0-9]*)/
+          var m = time.match(timeRegexHMSms);
+          if (m) {
+            format = format.replace(/hh/g, m[1]).replace(/mm/g, m[2]).replace(/ss/g, m[3]);
+            if (format.indexOf('f') != -1) { // format expects ms
+              return format.replace(/f/g, m[4])
+            } else {
+              return format;
+            }
+          }
+          var m = time.match(timeRegexHMS);
+          if (m) {
+            format = format.replace(/hh/g, m[1]).replace(/mm/g, m[2]).replace(/ss/g, m[3]);
+            if (format.indexOf('f') != -1) { // format expects ms but we could not capture one
+              return format.replace(/.f/g, '')
+            }
+          }
+
+          return time;
+        }
+      }
+    },
+
     DownloadJpeg: function()
     {
       var canvas = document.getElementById(this.GetActiveCanvas());
@@ -1097,6 +1143,10 @@ window.addEventListener('StoneInitialized', function() {
     stone.SetDicomCacheSize(app.globalConfiguration.DicomCacheSize);
   }
 
+  if ('SkipSeriesFromModalities' in app.globalConfiguration) {
+    stone.SetSkipSeriesFromModalities(JSON.stringify(app.globalConfiguration.SkipSeriesFromModalities));
+  }
+  
   // Bearer token is new in Stone Web viewer 2.0
   var token = getParameterFromUrl('token');
   if (token !== undefined)
@@ -1161,7 +1211,7 @@ window.addEventListener('StoneInitialized', function() {
 
 
 window.addEventListener('ResourcesLoaded', function() {
-  console.log('resources loaded');
+  console.log('resources loaded: ', stone.GetStudiesCount(), 'studies &', stone.GetSeriesCount(), 'series');
 
   var studies = [];
   for (var i = 0; i < stone.GetStudiesCount(); i++) {
